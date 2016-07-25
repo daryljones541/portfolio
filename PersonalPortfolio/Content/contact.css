@@ -1,0 +1,12 @@
+﻿
+.required:after {
+    content: " *";
+    font-weight: bold;
+    color: red; 
+}
+.error {
+    color: #a94442;
+}
+textarea {
+    width: 100%;
+}

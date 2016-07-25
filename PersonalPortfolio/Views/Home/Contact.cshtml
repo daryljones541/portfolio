@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/contact.css")" rel="stylesheet" type="text/css" />
+
+<h2>Contact</h2>
+<div class="col-md-offset-1 col-md-10">
+    <div class="well" id="container">
+            <form id="contactForm">
+                <div class="form-horizontal">
+                    <fieldset>
+                        <legend>Send me a message</legend>
+                        <p>
+                            Thank you for taking the time to contact me.
+                        </p>
+                        <div class="form-group">
+                            <label class = "control-label col-md-4">Message Category</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Value", new SelectList(ViewBag.Categories, "Value", "Text"), null, new { @class = "form-control", @id = "category" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class = "control-label col-md-4 required">Your Email</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box single-line" type="email" id="email" name="Email" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class = "control-label col-md-4 required">Re-Enter Email</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box single-line" type="email" id="remail" name="Remail" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class = "control-label col-md-4">Subject</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box single-line" id="subject" name="Subject" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class = "control-label col-md-4 required">Message</label>
+                            <div class="col-md-8">
+                                <textarea id="message" name="Message" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-8">
+                                <span id="submit-button" class="btn btn-primary">Submit</span>
+                            </div>
+                        </div>
+                        <label class="col-md-offset-4 text-danger" id="error-summary"></label>
+                    </fieldset>
+                    <label class="required">Required</label>
+                </div>
+            </form>  
+    </div>
+</div>
+
+<div class="modal fade" id="form-messagesent">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Message Sent</h4>
+            </div>
+            <div class="modal-body">
+                <p>Thank you for your message!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.page-links').removeClass('active');
+        $('#contact-page').addClass('active');
+        $('#contactForm').validate({
+            rules: {
+                Email: {
+                    required: true
+                },
+                Remail: {
+                    equalTo: '#email'
+                },
+                Message: {
+                    required: true
+                }
+            },
+            messages: {
+                Email: { required: "Your email is required." },
+                Remail: { equalTo: "The emails do not match." },
+                Message: { required: "Your message is required." }
+            },
+            showErrors: function (errorMap, errorList) {
+                this.defaultShowErrors();
+            }
+        });
+        $('#submit-button').click(function () {
+            if ($('#contactForm').valid()) {
+                var email = $('#email').val();
+                var category = $("#category option:selected").text();
+                var subject = $('#subject').val();
+                var message = $('#message').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/SendMessage",
+                    data: { category: category, subject: subject, email: email, message: message },
+                    success: function (data) {
+                        if (data) {
+                            $('#contactForm')[0].reset();
+                            $('#form-messagesent').modal('show');
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
+                });
+            }
+        });
+    });
+    
+</script>

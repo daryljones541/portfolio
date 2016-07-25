@@ -1,0 +1,30 @@
+﻿@model PersonalPortfolio.Models.RegisterVM
+@{
+    ViewBag.Title = "Thankyou";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    li#register-page {
+        display: inline;
+    }
+</style>
+<h2>Check your email</h2>
+
+<p>
+    To complete your registration, you will need to verify your email address.
+    To do this, click the link in the email that was just sent to you.  It may take a couple
+    of minutes for you to receive it.  If you don't see it in your inbox, check
+    your spam or junk folder.
+</p>
+<p>
+    If you need the email verification link resent to you, log in on the Portfolio page
+    and follow the directions.
+</p>
+<p>
+    @Html.ActionLink("Return to Portfolio", "Index", "Home")
+</p>
+
+<script>
+    $('.page-links').removeClass('active');
+    $('#register-page').addClass('active');
+</script>

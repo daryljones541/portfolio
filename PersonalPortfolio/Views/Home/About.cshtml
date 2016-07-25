@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/about.css")" rel="stylesheet" type="text/css" />
+<h2>About</h2>
+<p>
+    My name is Daryl Preston Jones.
+    Programming has always come easy for me.  My brain is wired for it. 
+    I taught myself how to program in machine/assembly language when I was 16, 
+    so I understand how computers work at their most fundamental level including 
+    registers, logical operations on bytes, interrupts and memory addressing.
+</p>
+<h4 id="links">
+    <a href="~/Images/MyResume.pdf" target="_blank">
+        Resume <img src="~/Images/Pdf_icon.png" alt="Daryl P. Jones Resume" style="height: 2em;" /><br />
+    </a>
+</h4>
+<div class="image">
+    <span class="middler"></span>
+    <a href="https://www.linkedin.com/in/daryl-jones-b95a99120" target="_blank">
+        <img src="~/Images/256px-Linkedin_icon.svg.png" alt="LinkedIn button" />
+    </a>
+</div>
+<h4 style="clear:both;">Education</h4>
+<p>
+    I studied computer programming at Lane Community College in Eugene, OR.  My degree program is 
+    centered around web design.  I've had extensive exposure to ASP.NET and database administration,
+    and I earned an A in every programming and database course I've taken:
+</p>
+<ul class="list-group">
+    <li class="list-group-item col-md-6">
+        ART 288 - Introduction to Web Design
+    </li>
+    <li class="list-group-item col-md-6">
+        CIS 195 - Web Authoring 1
+    </li>
+    <li class="list-group-item col-md-6">
+        CS 133N - Beginning Programming: C#
+    </li>
+    <li class="list-group-item col-md-6">
+        CS 133JS - Beginning Programming JavaScript
+    </li>
+    <li class="list-group-item col-md-6">
+        CS 233N - Intermediate Programming C#
+    </li>
+    <li class="list-group-item col-md-6">
+        CS 234N - Advanced Programming C#
+    </li>
+    <li class="list-group-item col-md-6">
+        CS 295N - Web Development 1: ASP.NET
+    </li>
+    <li class="list-group-item col-md-6">
+        CS 296N - Web Development 2: ASP.NET
+    </li>
+    <li class="list-group-item col-md-6">
+        CS 295P - Web Development 1: PHP
+    </li>
+    <li class="list-group-item col-md-6">
+        CS 296P - Web Development 2: PHP
+    </li>
+    <li class="list-group-item col-md-6">
+        CS 297P - Programming Capstone
+    </li>
+    <li class="list-group-item col-md-6">
+        CIS 125D - Software Tools 1: Databases
+    </li>
+    <li id="list-item1" class="list-group-item col-md-6">
+        CS 275 - Database Systems and Modeling
+    </li>
+    <li id="list-item2" class="list-group-item col-md-6">
+        CS 276 - Database SQL Programming
+    </li>
+</ul>
+<p id="class-list" style="clear:both;">
+    I received a database specialist certificate from Lane, and the only remaining course I need to complete my computer
+    programming degree is a co-op course, which is my degree program's internship requirement.  I built this website in
+    the hopes of securing a promising internship.  I want to find one that has the potential to lead to regular employment. 
+    </p>
+<h4>
+    Interests
+</h4>
+<p>
+    I am a very nature-oriented person, and this is reflected by my love of whole foods
+    and being in the outdoors.  I love to bike, hike and garden.  I prepare everything I
+    eat myself from unprocessed ingredients.  I’ve had a garden every year for the last
+    18 years, and I’ve learned to set them up efficiently, so they require less work and water.
+    I bike nearly every day along the Willamette River, which I am fortunate enough to live
+    right next to, and if I have someone to walk with, I like to hike along the river or up
+    to the top of Skinner Butte.
+</p>
+<p>
+    I enjoy lifting weights, listening to music and watching movies.  I like music and movies
+    from every genre.  I know what I like, but it is difficult to explain why.  I also love people.  
+    I really enjoy meeting new people or even just observing people.  I like to listen to different 
+    people’s ideas.  There are so many vantage points and viewpoints in the world, and I have noticed 
+    that whenever I am around people, I am happier, and I would love to meet you.
+</p>
+<script>
+    $('.page-links').removeClass('active');
+    $('#about-page').addClass('active');
+    $(document).ready(function () {
+        checkScreen();
+    });
+    $(window).resize(function () {
+        checkScreen();
+    });
+    function checkScreen() {
+        if ($('#list-item1').offset().top == $('#list-item2').offset().top) {
+            $('#class-list').css('padding-top', '0.5em');
+        }
+        else {
+            $('#class-list').css('padding-top', '0');
+        }
+    }
+</script>

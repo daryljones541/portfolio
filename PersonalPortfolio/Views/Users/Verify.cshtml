@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Verify";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    li#register-page {
+        display: inline;
+    }
+</style>
+<h2>Email Verification</h2>
+
+@ViewBag.Message
+<br /><br />
+<p>
+    @Html.ActionLink("Go to Portfolio", "Index", "Home")
+</p>
+
+<script>
+    $('.page-links').removeClass('active');
+    $('#register-page').addClass('active');
+</script>

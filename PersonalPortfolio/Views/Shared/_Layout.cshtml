@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="language" content="english" />
+    <meta name="description" content="Portfolio for Daryl P. Jones" />
+    <meta name="keywords" content="daryl jones,daryl jones eugene,daryl p jones,daryl p jones eugene,web developer,web design,web designer,website design,website designer,programmer" />
+    <meta name="author" content="Daryl P. Jones" />
+    <meta name="google-site-verification" content="MNMppwab6Xhwkj9r4Cf_oPAVuf_tHAiqYGDGXbFnvR4" />
+    <title>@ViewBag.Title - Daryl P. Jones</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/custom.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Daryl P. Jones", "About", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown page-links" id="portfolio-page">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Portfolio <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("ASP.NET", "Index", "Home")</li>
+                            <li><a href="/PHP/Portfolio.php">PHP</a></li>
+                        </ul>
+                    </li>
+                    <li class="page-links" id="about-page">@Html.ActionLink("About", "About", "Home")</li>
+                    <li class="page-links" id="contact-page">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" style="display:inline-block;">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="page-links" id="register-page">@Html.ActionLink("Register", "Register", "Users")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Daryl P. Jones</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/custom.js"></script>
+
+</body>
+</html>

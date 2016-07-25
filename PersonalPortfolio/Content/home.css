@@ -1,0 +1,32 @@
+﻿td {
+    cursor: default;
+}
+.panel-body {
+    padding: 0;
+}
+#left-side {
+    float: left;
+    width: 50%;
+}
+#right-side {
+    float: right;
+    width: 50%;
+}
+.required:after 
+{
+    content: " *";
+    font-weight: bold;
+    color: red; 
+}
+#feedback {
+    display: block;
+}
+.error {
+    color: #a94442;
+}
+input[type="search"] {
+    -webkit-appearance: searchfield;
+}
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}

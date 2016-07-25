@@ -1,0 +1,32 @@
+﻿.list-group-item {
+    background-color:#F0F8FF;
+    border-color: #E6E6FA;
+}
+.image img {
+    max-width: 90%;
+    vertical-align: middle;
+    width: 90%;
+}
+
+.image img:hover {
+    max-width: 100%;
+    width: 100%;
+}
+
+.image {
+    float: left;
+    height: 70px;
+    margin: auto;
+    text-align: center;
+    width: 70px;
+}
+
+.middler {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+#links {
+    float: left;
+    margin-right: 3vw;
+}
