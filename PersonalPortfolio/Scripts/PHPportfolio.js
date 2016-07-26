@@ -278,7 +278,8 @@ $(document).ready(function () {
 				$('#loginMessage').html("There was a problem connecting to the server.");
 			}
 			else {
-				$('#loginMessage').html("There was a problem logging you in.");
+				$('#loginMessage').html(data);
+				//$('#loginMessage').html("There was a problem logging you in.");
 			}
 		}
 	  });
@@ -366,7 +367,7 @@ $(document).ready(function () {
 				url: 'formFunctions.php',
 				data: { addtask:task },
 				success: function (data) {
-					$('#toDoBody').append('<tr><td>'+task+'</td></tr>');
+					$('#toDoBody').append('<tr><td id="toDo'+data+'">'+task+'</td></tr>');
 					$('#addTask').val('');
 					$('#toDoBox').animate({ scrollTop: $('#toDoBox').prop("scrollHeight")}, 1000);
 				}
@@ -419,7 +420,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: 'post',
 			url: 'formFunctions.php',
-			data: { updatetask:index },
+			data: { updatetask:index,task:editTaskText },
 			success: function (data) {
 				$('#toDo'+index).html(editTaskText);
 				$('#editTaskModal').modal('hide');

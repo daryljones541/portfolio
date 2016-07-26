@@ -1,10 +1,7 @@
 <?php
 session_start();
 date_default_timezone_set('America/Los_Angeles');
-define("DBHOST", "my04.winhost.com");
-define("DBUSER", "daryljones541");
-define("DBPASSWORD", "martharod37");
-define("DBNAME", "mysql_103552_portfolio");
+include 'winhostDB.php';
 
 // Event list functions
 if(isset($_POST['editappointment'])){
@@ -277,7 +274,9 @@ if(isset($_POST['addtask'])) {
 		$statement->bind_param("is", $userid, $task);
 		$query=$statement->execute();
 		if ($query) {
+			$taskid=$db->insert_id;
 			$statement->close();
+			exit($taskid);
 		}
 		else {
 			exit("error");
@@ -287,21 +286,26 @@ if(isset($_POST['addtask'])) {
 
 if(isset($_POST['updatetask'])) {
 	if (isset($_SESSION['userid'])) {
-		$id=$_POST['updatetask'];
-		$userid=$_SESSION['userid'];
-		@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
-		$updateSQL="update todo set task=? where id=? and userid=?";
-		$updateStatement=$db->prepare($updateSQL);
-		$updateStatement->bind_param("sii",$task,$id,$userid);
-		$updateQuery=$updateStatement->execute();
-		if ($updateQuery) {
-			$updateStatement->close();
-			exit("success");
+		if (isset($_POST['task'])) {
+			$id=$_POST['updatetask'];
+			$task=$_POST['task'];
+			$userid=$_SESSION['userid'];
+			@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
+			$updateSQL="update todo set task=? where id=? and userid=?";
+			$updateStatement=$db->prepare($updateSQL);
+			$updateStatement->bind_param("sii",$task,$id,$userid);
+			$updateQuery=$updateStatement->execute();
+			if ($updateQuery) {
+				$updateStatement->close();
+				exit("success");
+			}
+			else {					
+				exit("error");
+			}
 		}
-		else {					
-			exit("error");
-		}
+		else exit("task not set");
 	}
+	else exit("userid not set");
 }
 
 if(isset($_POST['gettasks'])) {

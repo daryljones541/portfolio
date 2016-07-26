@@ -600,7 +600,7 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
 					<input id="editTaskObject" type="hidden" />
 					<div class="row">
 						<div class="col-md-12">
-							<input class="form-control" id="editTaskText" type="text" />	
+							<textarea class="form-control" rows="3" id="editTaskText"></textarea>
 						</div>
 					</div>					
 				</div>			
