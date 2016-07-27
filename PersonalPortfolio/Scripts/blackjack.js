@@ -116,17 +116,16 @@ function updateBoard(data) {
     $('#dealerScore').html(data.dealerScore);
     // if server says the game is over, show computer's face down card and disable/enable appropriate buttons
     if (data.gameOver) {
-        $('#hitMeButton').prop("disabled", true);
-        $('#standButton').prop("disabled", true);
-        $('#playAgainButton').prop("disabled", false);
+        $('#hitMeButton').addClass("disabled");
+        $('#standButton').addClass("disabled");
+        $('#playAgainButton').removeClass("disabled");
         $("#cCard1").attr("src", data.computerCards[0]);
     }
     // if the game's not over, disable/enable appropriate buttons
     else {
-        $('#hitMeButton').prop("disabled", false);
-        $('#playAgainButton').prop("disabled", true);
-        // if playerStatus flag is set (user can hit), enable the Stand button
-        if (data.playerStatus) $('#standButton').prop("disabled", false);
+        $('#hitMeButton').removeClass("disabled");
+        $('#standButton').removeClass("disabled");
+        $('#playAgainButton').addClass("disabled");   
     }
     // display the player and computer messages returned form the server
     $('#playerLabel').html(data.userLabel);

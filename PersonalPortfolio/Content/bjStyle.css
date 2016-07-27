@@ -8,7 +8,28 @@
     padding: 20px;
 }
 #blackjackButtons {
-    margin: 20px;
+    margin: 20px 0;
+
+}
+.blackjack-button {  
+    background-color: #D2B48C;
+    border: 1px solid black;
+    border-radius: 90%;
+    color: black;
+    display: inline;
+    padding: 10px;
+}
+.blackjack-button:hover {
+    background-color: #F5DEB3;
+    cursor: pointer;
+}
+.disabled {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+#computersArea {
+    clear: both;
 }
 .bjHeading {
     margin: 0;
