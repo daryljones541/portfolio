@@ -1,29 +1,29 @@
 <?php
 session_start();
 date_default_timezone_set('America/Los_Angeles');
-include 'winhostDB.php';
-
+if (!isset($db)) {
+	include 'winhostDB.php';
+	@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
+}
 // Event list functions
 if(isset($_POST['editappointment'])){
 	if(isset($_POST['id'])){
 		if(isset($_SESSION['userid'])) {
 			$userid=$_SESSION['userid'];
 			$id=$_POST['id'];
-			@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 			$SQLstring="select * from appointment where userid=$userid and id=$id";
 			$query=$db->query($SQLstring);
 			$appointment=array();
 			if ($query) {
 				$row=$query->fetch_assoc();
 				$query->free();
-				$db->close();
 				$appointment['id']=$row['id'];
 				$timestamp=strtotime($row['date']);
 				$appointment['date']=date('m/d/Y',$timestamp);
 				$appointment['time']=$row['time'];
 				$appointment['description']=$row['description'];
 				$appointment['reminder']=$row['reminder'];
-				$appointment['status']="success";		
+				$appointment['status']="success";
 			}
 			else {
 				$appointment['status']="error";	
@@ -39,18 +39,18 @@ if(isset($_POST['dismissalarm'])){
 		if(isset($_SESSION['userid'])) {
 			$userid=$_SESSION['userid'];
 			$id=$_POST['id'];
-			@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 			$SQLstring="update appointment set active=0 where id=? and userid=?";
 			$statement=$db->prepare($SQLstring);
 			$statement->bind_param("ii",$id,$userid);
 			$query=$statement->execute();
-			if ($query) {
-				$statement->close();
-				exit("success");
+			if ($query) {		
+				echo("success");
 			}
 			else {					
-				exit("error");
+				echo("error");
 			}
+			$statement->close();
+			exit;
 		}
 	}
 }
@@ -64,26 +64,25 @@ if(isset($_POST['snooze'])){
 			$snooze=$_POST['snooze'];
 			$seconds=$snooze*60;
 			$time+=$seconds;
-			@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 			$SQLstring="update appointment set alarm=? where id=? and userid=?";
 			$statement=$db->prepare($SQLstring);
 			$statement->bind_param("iii",$time,$id,$userid);
 			$query=$statement->execute();
 			if ($query) {
-				$statement->close();
-				exit("success");
+				echo("success");
 			}
 			else {					
-				exit("error");
+				echo("error");
 			}
+			$statement->close();
+			exit;
 		}
 	}
 }
 
 if(isset($_POST['getalerts'])) {
 	if(isset($_SESSION['userid'])) {
-		$userid=$_SESSION['userid'];
-		@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);	
+		$userid=$_SESSION['userid'];	
 		$SQLstring="select * from appointment where userid=$userid and active=1 order by alarm";
 		$query=$db->query($SQLstring);
 		$row_count=$query->num_rows;
@@ -106,6 +105,7 @@ if(isset($_POST['getalerts'])) {
 				}
 			}
 		}
+		$query->free();
 		if (empty($appointment)) $appointment[0]['status']="none";
 		echo(json_encode($appointment));
 		exit;
@@ -119,23 +119,23 @@ if(isset($_POST['appointid'])) {
 	if(isset($_SESSION['userid'])) {
 		$userid=$_SESSION['userid'];
 		$id=$_POST['appointid'];
-		@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 		$SQLstring="delete from appointment where id=? and userid=?";
 		$statement=$db->prepare($SQLstring);
 		$statement->bind_param("ii", $id, $userid);
 		$success=$statement->execute();
 		if ($success) {
-			$statement->close();
-			exit("success");
+			
+			echo("success");
 		}
-		else exit("error");
+		else echo("error");
+		$statement->close();
+		exit;
 	}
 }
 
 if(isset($_POST['appointment'])) {
 	if(isset($_SESSION['userid'])) {
 		$userid=$_SESSION['userid'];
-		@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 		$SQLstring="select * from appointment where userid=$userid order by date, time";
 		$query=$db->query($SQLstring);
 		$row_count=$query->num_rows;
@@ -156,6 +156,7 @@ if(isset($_POST['appointment'])) {
 			$appointmentList[$i]['id']=$row['id'];
 			$appointmentList[$i]['active']=$row['active'];
 		}
+		$query->free();
 		echo(json_encode($appointmentList));
 		exit;
 	}
@@ -187,18 +188,18 @@ if(isset($_POST['reminder'])) {
 						}
 						$date=date("Y-m-d H:i:s",$date);
 						$description=$_POST['description'];
-						@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 						$SQLstring="update appointment set date=?, time=?, reminder=?, description=?, active=?, alarm=? where userid=? and id=?";
 						$statement=$db->prepare($SQLstring);
 						$statement->bind_param("siisiiii",$date,$time,$reminder,$description,$active,$alarm,$userid,$id);
 						$query=$statement->execute();
-						if ($query) {
-							$statement->close();
-							exit("updated ".$id);
+						if ($query) {	
+							echo("updated ".$id);
 						}
 						else {					
-							exit("error");
+							echo("error");
 						}
+						$statement->close();
+						exit;
 					}
 					else {
 						$userid=$_SESSION['userid'];
@@ -219,23 +220,21 @@ if(isset($_POST['reminder'])) {
 						}
 						$date=date("Y-m-d H:i:s",$date);
 						$description=$_POST['description'];
-						@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 						$SQLstring="insert into appointment (userid, date, time, alarm, reminder, active, description) values (?,?,?,?,?,?,?)";
 						$statement=$db->prepare($SQLstring);
 						$statement->bind_param("isiiiis", $userid, $date, $time, $alarm, $reminder, $active, $description);
 						$query=$statement->execute();
-						if ($query) {
-							$statement->close();
+						if ($query) {			
 							$returnValue['status']="success";
 							$returnValue['id']=$db->insert_id;
 							echo json_encode($returnValue);
-							exit;
 						}
 						else {
 							$returnValue['status']="error";
 							echo json_encode($returnValue);
-							exit;
 						}
+						$statement->close();
+						exit;
 					}
 				}
 			}
@@ -251,16 +250,16 @@ if(isset($_POST['deletetask'])) {
 	if (isset($_SESSION['userid'])) {
 		$userid=$_SESSION['userid'];
 		$index=$_POST['deletetask'];
-		@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 		$SQLstring="delete from todo where userid=? and id=?";
 		$statement=$db->prepare($SQLstring);
 		$statement->bind_param("ii", $userid, $index);
 		$success=$statement->execute();
-		if ($success) {
-			$statement->close();
-			exit("success");
+		if ($success) {	
+			echo("success");
 		}
-		else exit("error");
+		else echo("error");
+		$statement->close();
+		exit;
 	}
 }
 
@@ -268,19 +267,19 @@ if(isset($_POST['addtask'])) {
 	if (isset($_SESSION['userid'])) {
 		$userid=$_SESSION['userid'];
 		$task=$_POST['addtask'];
-		@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 		$SQLstring="insert into todo (userid, task) values (?,?)";
 		$statement=$db->prepare($SQLstring);
 		$statement->bind_param("is", $userid, $task);
 		$query=$statement->execute();
 		if ($query) {
 			$taskid=$db->insert_id;
-			$statement->close();
-			exit($taskid);
+			echo($taskid);
 		}
 		else {
-			exit("error");
+			echo("error");
 		}
+		$statement->close();
+		exit;
 	}
 }
 
@@ -290,28 +289,25 @@ if(isset($_POST['updatetask'])) {
 			$id=$_POST['updatetask'];
 			$task=$_POST['task'];
 			$userid=$_SESSION['userid'];
-			@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 			$updateSQL="update todo set task=? where id=? and userid=?";
 			$updateStatement=$db->prepare($updateSQL);
 			$updateStatement->bind_param("sii",$task,$id,$userid);
 			$updateQuery=$updateStatement->execute();
-			if ($updateQuery) {
-				$updateStatement->close();
-				exit("success");
+			if ($updateQuery) {	
+				echo("success");
 			}
 			else {					
-				exit("error");
+				echo("error");
 			}
+			$updateStatement->close();
+			exit;
 		}
-		else exit("task not set");
 	}
-	else exit("userid not set");
 }
 
 if(isset($_POST['gettasks'])) {
 	if (isset($_SESSION['userid'])) {
 		$userid=$_SESSION['userid'];
-		@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 		$SQLstring="select * from todo where userid=$userid";
 		$query=$db->query($SQLstring);
 		$row_count=$query->num_rows;
@@ -320,6 +316,7 @@ if(isset($_POST['gettasks'])) {
 			$row=$query->fetch_assoc();
 			$todoList[$i]=$row;
 		}
+		$query->free();
 		echo(json_encode($todoList));
 		exit;
 	}
@@ -329,7 +326,6 @@ if(isset($_POST['reordertasks'])) {
 	if (isset($_SESSION['userid'])) {
 		$userid=$_SESSION['userid'];
 		$tasks=$_POST['reordertasks'];
-		@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 		$SQLstring="select * from todo where userid=$userid";
 		$query=$db->query($SQLstring);
 		foreach ($tasks as $task) {
@@ -340,14 +336,14 @@ if(isset($_POST['reordertasks'])) {
 				$updateStatement=$db->prepare($updateSQL);
 				$updateStatement->bind_param("sii",$task,$id,$userid);
 				$updateQuery=$updateStatement->execute();
-				if ($updateQuery) {
-					$updateStatement->close();
-				}
-				else {					
+				if (!$updateQuery) {
 					exit("error");
 				}
+				$updateStatement->close();
 			}
 		}
+		$query->free();
+		exit("success");
 	}
 }
 
@@ -365,7 +361,6 @@ if(isset($_POST['username'])) {
 			$username=$_POST['username'];
 			$password=md5($_POST['password']);
 			$mode=$_POST['mode'];
-			@$db=mysqli_connect(DBHOST,DBUSER,DBPASSWORD,DBNAME);
 			if (mysqli_connect_errno()) {
 				exit('fail');
 			}
@@ -374,6 +369,7 @@ if(isset($_POST['username'])) {
 				$query=$db->query($SQLstring);
 				if ($query) {
 					$row=$query->fetch_assoc();
+					$query->free();
 					if ($password==$row['password']) {
 						$_SESSION['user']=$username;
 						$_SESSION['userid']=$row['id'];
@@ -391,6 +387,7 @@ if(isset($_POST['username'])) {
 				$SQLstring="select * from user where username='$username'";
 				$query=$db->query($SQLstring);
 				if ($query->num_rows==0) {
+					$query->free();
 					$SQLstring="insert into user (username, password) values (?,?);";
 					$statement=$db->prepare($SQLstring);
 					$statement->bind_param("ss", $username, $password);
@@ -399,10 +396,13 @@ if(isset($_POST['username'])) {
 						$userid=$db->insert_id;
 						$_SESSION['user']=$username;
 						$_SESSION['userid']=$userid;
-						exit('created');
+						echo 'created';
 					}
-					exit('error');			
+					else echo 'error';
+					$statement->close();
+					exit;			
 				}
+				$query->free();
 				exit('exists');
 			}
 			exit('error');		

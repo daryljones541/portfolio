@@ -6,29 +6,16 @@ PDF Icon
 URL: https://commons.wikimedia.org/wiki/File:Pdf_icon.png
 License: GNU Lesser General Public License
 
-
-
 AJAX Loading Graphic
-
 URL: https://commons.wikimedia.org/wiki/File:Loading_2_transparent.gif
-
 License:  Public Domain
 
-
-
 Right Arrow
-
 URL: https://commons.wikimedia.org/wiki/File:Arrow_right.svg
-
 License: Public domain
 
-
-
 Left Arrow
-
-
 URL: https://commons.wikimedia.org/wiki/File:Arrow_left.svg
-
 License: Public domain
 
 Event Calendar Gold Star
@@ -44,7 +31,7 @@ URL:  https://commons.wikimedia.org/wiki/File:Casino_BlackJack.svg
 Author:  CellarDoor85
 License:  Creative Commons Attribution-Share Alike 4.0 International license
 
-Email Icon
+Email Icon (not currently used)
 URL: https://commons.wikimedia.org/wiki/File:Email_Shiny_Icon.svg
 Author: Jessekoeckhoven
 License:  Public domain
@@ -58,3 +45,8 @@ Alarm Clock
 URL: https://commons.wikimedia.org/wiki/File:Nuvola_apps_kalarm.png
 Author: David Vignoni / ICON KING
 License: GNU Lesser General Public License
+
+Exit button on Event Calendar event details popup window
+https://commons.wikimedia.org/wiki/File:CloseWindow19x19.png
+Author 	Kaldari
+public domain

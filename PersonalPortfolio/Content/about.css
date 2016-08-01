@@ -2,29 +2,17 @@
     background-color:#F0F8FF;
     border-color: #E6E6FA;
 }
-.image img {
-    max-width: 90%;
-    vertical-align: middle;
-    width: 90%;
-}
-
-.image img:hover {
-    max-width: 100%;
-    width: 100%;
-}
-
-.image {
+#linkedIn {
+    background: url("/Images/256px-Linkedin_icon.svg.png");
+    background-size: 90%;
+    background-position: center center;
+    background-repeat: no-repeat;
     float: left;
     height: 70px;
-    margin: auto;
-    text-align: center;
     width: 70px;
 }
-
-.middler {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
+#linkedIn:hover {
+    background-size: 100%;
 }
 #links {
     float: left;

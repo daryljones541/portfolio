@@ -294,6 +294,7 @@
     <Content Include="Images\Nuvola_apps_kalarm.png" />
     <Content Include="PHP\Portfolio.php" />
     <Content Include="PHP\formFunctions.php" />
+    <Content Include="PHP\winhostDB.php" />
     <None Include="Properties\PublishProfiles\darylpjones.com - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\darylpjones.com - Web Deploy.pubxml">
       <SubType>Designer</SubType>

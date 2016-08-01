@@ -1,17 +1,12 @@
 ﻿$(document).ready(function () {
     $.ajaxSetup({ cache: false });
-    // All 6 AJAX calls below call the same function in the Home Controller.
-    // Each passes four flags to communicate the UI state to the function
-    $.ajax({
-        type: "post",
-        url: "/Home/GameTurn",
-        data: { playerHit: false, dealerHit: false, userStands: false, startNewGame: false, resetScores: false },
-        dataType: "json",
-        success: function (data) {
-            updateBoard(data);
-        },
-        error: function (xhr, ajaxOptions, thrownError) { $('#playerLabel').html(xhr.responseText); }
-    });
+    startGame();
+    // Every AJAX call below passes five flags to the GameTurn C# function
+    // playerHit: true to deal player a card if player can hit
+    // dealerHit: true to deal dealer a card if dealer can hit
+    // userStands: true if the user clicks Stand button
+    // startNewGame: true if the user clicks Play Again button
+    // resetScores: true if user clicks Reset button
     $('#resetButton').click(function (e) {
         e.preventDefault();
         resetBoard();
@@ -26,7 +21,6 @@
         });
     });
     $('#hitMeButton').click(function (e) {
-        e.preventDefault();
         $.ajax({
             type: "post",
             url: "/Home/GameTurn",
@@ -38,7 +32,6 @@
         });
     });
     $('#standButton').click(function (e) {
-        e.preventDefault();
         $.ajax({
             type: "post",
             url: "/Home/GameTurn",
@@ -50,19 +43,36 @@
         });
     });
     $('#playAgainButton').click(function (e) {
-        e.preventDefault();
-        resetBoard();
         $.ajax({
             type: "post",
             url: "/Home/GameTurn",
             data: { playerHit: false, dealerHit: false, userStands: false, startNewGame: true, resetScores: false },
             dataType: "json",
             success: function (data) {
+                $("#cCard1").attr("src", "/Images/Cards/black_back.jpg");
                 updateBoard(data);
             }
         });
     });
 });
+
+// Called on first load and on Session timeout
+function startGame() {
+    $.ajax({
+        type: "post",
+        url: "/Home/GameTurn",
+        data: { playerHit: false, dealerHit: false, userStands: false, startNewGame: false, resetScores: false },
+        dataType: "json",
+        success: function (data) {
+            // make user's and computer's card 1 visible    
+            $('#pCard1').css("visibility", "visible");
+            $('#cCard1').css("visibility", "visible");
+            updateBoard(data);
+        }
+    });
+}
+    
+// called automatically each turn after player stands as long as computer keeps going
 function gameTurn() {
     $.ajax({
         type: "post",
@@ -85,16 +95,11 @@ function resetBoard() {
     // make cards 1 for player and computer invisible and reset their images to back of card
     $("#pCard1").attr("src", "/Images/Cards/black_back.jpg");
     $("#cCard1").attr("src", "/Images/Cards/black_back.jpg");
-    $('#pCard1').css("visibility", "hidden");
-    $('#cCard1').css("visibility", "hidden");
     // display 'game loading'
     $('#playerLabel').html("Please Wait...");
-    $('#computerLabel').html('Game is Loading <img src="~/Images/Loading_2_transparent.gif" />');
+    $('#computerLabel').html('Game is Loading <img src="/Images/Loading_2_transparent.gif" />');
 }
 function updateBoard(data) {
-    // make user's and computer's card 1 visible    
-    $('#pCard1').css("visibility", "visible");
-    $('#cCard1').css("visibility", "visible");
     // display user's cards
     for (var x = 0; x < data.userCards.length; x++) {
         $("#pCard" + (x + 1)).attr("src", data.userCards[x]);
@@ -131,5 +136,6 @@ function updateBoard(data) {
     $('#playerLabel').html(data.userLabel);
     $('#computerLabel').html(data.computerLabel);
     // if the player cannot hit but the game is not over, automatically initiate a game turn (computer takes turn)
+    if (data.sessionActive == false) sessionTimeout(" The blackjack game has been reset.");
     if (!data.playerStatus && !data.gameOver) gameTurn();
 }

@@ -1,6 +1,18 @@
 ﻿// load the calendar when the page is ready
 $().ready(function () {
     loadCalendar();
+});
+
+function loadCalendar() {
+    // global variables that hold the position of the scrollbar and the month/year
+    // scrollbar is to keeep page where it is when going forward/back a month
+    // monthYear holds what month and year should be displayed
+    scrollbar = 0;
+    monthYear = new Date();
+    month = monthYear.getMonth();
+    year = monthYear.getFullYear();
+    day = monthYear.getDate();
+    fetchMonth();
     $("#event-box").on("click", "img", function () {
         $('#event-box').hide();
     });
@@ -63,18 +75,6 @@ $().ready(function () {
         $("#event-box").hide();
         $('#modal-addevent').modal('show');
     });
-});
-
-function loadCalendar() {
-    // global variables that hold the position of the scrollbar and the month/year
-    // scrollbar is to keeep page where it is when going forward/back a month
-    // monthYear holds what month and year should be displayed
-    scrollbar = 0;
-    monthYear = new Date();
-    month = monthYear.getMonth();
-    year = monthYear.getFullYear();
-    day = monthYear.getDate();
-    fetchMonth();
 }
 
 // keep the calendar td height and width the same when the window is resized

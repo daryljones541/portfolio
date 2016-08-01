@@ -101,13 +101,23 @@ namespace PersonalPortfolio.Controllers
             }
         }
         // AJAX called by Home/Index's Resend Link button (displays when unverified user tries to log in)
-        public JsonResult ResendEmail()
+        public string ResendEmail()
         {
-            if (Session["user"]==null) return Json("false");
-            User user = (User)Session["user"];
-            SendEmail(user);
-            return Json("true");
+            if (Session["session"] == null && Session["user"] == null) return "Session";
+            if (Session["user"] == null) return "User";
+            else
+            {
+                User user = (User)Session["user"];
+                SendEmail(user);
+                return "Sent";
+            }
         }
+        // checks if user is Authenticated
+        public bool IsAuthenticated()
+        {
+            return User.Identity.IsAuthenticated;
+        }
+        
         // called when user clicks link in email
         public ActionResult Verify(string id)
         {
@@ -134,7 +144,6 @@ namespace PersonalPortfolio.Controllers
                 }
                 else ViewBag.Message = "There was a problem processing your request.";
             }
-            
             return View();
         }
         // AJAX called by User Authentication form to asynchronously check credentials
@@ -161,19 +170,18 @@ namespace PersonalPortfolio.Controllers
             var identity = userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
             GetAuthenticationManager().SignIn(identity);
         }
-
         private IAuthenticationManager GetAuthenticationManager()
         {
             var ctx = Request.GetOwinContext();
             return ctx.Authentication;
         }
         // AJAX called by Home/Index's Logout button
-        public JsonResult Logout()
+        public bool Logout()
         {
             var ctx = Request.GetOwinContext();
             var authManager = ctx.Authentication;
             authManager.SignOut("ApplicationCookie");
-            return Json(true);
+            return true;
         }
         // AJAX called to initialize Entity Framework after Home/Index is displayed
         public string InitializeEF()

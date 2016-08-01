@@ -43,6 +43,11 @@ namespace PersonalPortfolio.Controllers
             // Check if calendar events have already been set; if not, set them
             haveSomethingInSession();
             PopulateTime(viewModel);
+            // set Session variable to check for session timeout
+            if (Session["session"] == null)
+            {
+                Session["session"] = true;
+            }
             return View(viewModel);
         }
 
@@ -69,19 +74,38 @@ namespace PersonalPortfolio.Controllers
             return View();
         }
 
-        // AJAX called by Home/Index's Async Form's View All button 
+        // AJAX called by Async Form's View All button 
         public JsonResult GetFeedback()
         {
-            feedbackList = (List<Feedback>)Session["feedbackList"];
+            if (Session["session"]==null)
+            {
+                // session timed out
+                Session["session"] = true;
+                return Json("timeout");
+            }
+            if (Session["feedbackList"] != null)
+            {
+                feedbackList = (List<Feedback>)Session["feedbackList"];
+            }
+            else
+            {
+                feedbackList = new List<Feedback>();
+            }
             return Json(feedbackList);
         }
 
         [HttpPost]
-        // AJAX called by Home/Index's Async Form to submit user feedback
+        // AJAX called by Async Form to submit user feedback
         public bool AddFeedback(string date, string referrer, string name, string email, string phone, string feedback)
         {
+            bool sessionActive = true;
+            if (Session["session"] == null)
+            {
+                // session timed out
+                Session["session"] = true;
+                sessionActive = false;
+            }  
             if (referrer == "Please Select") referrer = "";
-            //System.Diagnostics.Debug.Write(date + "," + name + "," + referrer + "," + email + "," + phone + "," + feedback);
             Feedback viewModel = new Feedback { Name = name, ReferredBy = referrer, Email = email, Phone = phone, CustomerFeedback = feedback };
             viewModel.Date = Convert.ToDateTime(date);
             if (Session["feedbackList"] != null)
@@ -94,11 +118,11 @@ namespace PersonalPortfolio.Controllers
             }
             feedbackList.Add(viewModel);
             Session["feedbackList"] = feedbackList;
-            return true;
+            return sessionActive;
         }
 
         [HttpPost]
-        // AJAX called by Home/Contact to email me user's message
+        // AJAX called to email me user's message
         public bool SendMessage(string category, string subject, string email, string message)
         {
             if (category == "Please Select") category = "None";
@@ -135,6 +159,7 @@ namespace PersonalPortfolio.Controllers
             }
         }
 
+        // session timeout can cause there to be nothing
         private void haveSomethingInSession()
         {
             if (Session["events"] == null)
@@ -156,10 +181,11 @@ namespace PersonalPortfolio.Controllers
             }
         }
 
-        [HttpPost]
-        // AJAX called by Home/Index's Calendar Add Event
-        public JsonResult AddEvent(string date, string time, string location, string title)
+        // AJAX called by Calendar Add Event
+        public bool AddEvent(string date, string time, string location, string title)
         {
+            // flag to tell calling function whether or not Session is alive
+            bool sessionActive = true;
             DateTime eventDate = Convert.ToDateTime(date);
             if (time != "All Day")
             {
@@ -175,6 +201,7 @@ namespace PersonalPortfolio.Controllers
             {
                 e.AllDay = false;
             }
+            // If user is logged in, save event to the database
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
@@ -185,22 +212,36 @@ namespace PersonalPortfolio.Controllers
                     db.SaveChanges();
                 } 
             }
+            // if no one is logged in, save event to Session
             else
             {
-                // events are stored in Session list
-                haveSomethingInSession();           
+                if (Session["session"] == null)
+                {
+                    // session timed out
+                    Session["session"] = true;
+                    sessionActive = false;
+                }
+                // make sure something is in Session
+                haveSomethingInSession();
+                // events are stored in Session list        
                 var events = (List<Event>)Session["events"];
+                // get max ID to divine the next event ID
                 int id = events.Max(i => i.ID);
                 id++;
                 e.ID = id;
                 events.Add(e);
+                // put updated event list back in Session
                 Session["events"] = events;
             }
-            return Json(eventDate);
+            // return whether or not Session was still alive
+            return sessionActive;
         }
 
-        public JsonResult UpdateEvent(int id, string date, string time, string location, string title)
+        // AJAX called by Calendar Edit Event
+        public string UpdateEvent(int id, string date, string time, string location, string title)
         {
+            // flag to tell calling function whether or not Session is alive
+            string status = "True";
             DateTime eventDate = Convert.ToDateTime(date);
             if (time != "All Day")
             {
@@ -216,44 +257,60 @@ namespace PersonalPortfolio.Controllers
             {
                 e.AllDay = false;
             }
+            // If user is logged in, edit event from database
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
                 using (var db = new PersonalPortfolioContext())
                 {
                     var updateEvent = db.Events.SingleOrDefault(x => x.ID == id);
-                    if (updateEvent.UserId == userId)
+                    // make sure the event really exists
+                    if (updateEvent != null)
+                    {
+                        // make sure the event belongs to the logged in user
+                        if (updateEvent.UserId == userId)
+                        {
+                            // everything checks out so update and save the event
+                            updateEvent.Date = e.Date;
+                            updateEvent.AllDay = e.AllDay;
+                            updateEvent.Location = e.Location;
+                            updateEvent.Title = e.Title;
+                            db.Entry(updateEvent).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                    else status = "None";
+                }
+            }
+            // if no one is logged in, edit event in Session
+            else
+            {
+                // check if Session is alive
+                if (Session["session"] == null)
+                {
+                    // session timed out
+                    Session["session"] = true;
+                    status = "False";
+                }
+                else
+                {
+                    // make sure some events are in Session
+                    haveSomethingInSession();
+                    // events are stored in Session list
+                    var events = (List<Event>)Session["events"];
+                    var updateEvent = events.SingleOrDefault(x => x.ID == id);
+                    // if event can be found, 
+                    if (updateEvent != null)
                     {
                         updateEvent.Date = e.Date;
                         updateEvent.AllDay = e.AllDay;
                         updateEvent.Location = e.Location;
                         updateEvent.Title = e.Title;
-                        db.Entry(updateEvent).State = EntityState.Modified;
-                        db.SaveChanges();
                     }
+                    else status = "None";
                 }
             }
-            else
-            {
-                // events are stored in Session list
-                haveSomethingInSession();
-                var events = (List<Event>)Session["events"];
-                var updateEvent = events.SingleOrDefault(x => x.ID == id);
-                if (updateEvent != null)
-                {
-                    updateEvent.Date = e.Date;
-                    updateEvent.AllDay = e.AllDay;
-                    updateEvent.Location = e.Location;
-                    updateEvent.Title = e.Title;    
-                }
-                else
-                {
-                    events.Add(e);
-                    
-                }
-                Session["events"] = events;
-            }
-            return Json(eventDate);
+            return status;
         }
 
         public string DeleteEvent(int id)
@@ -338,6 +395,18 @@ namespace PersonalPortfolio.Controllers
             //      dealerHit - deal to dealer if possible (if can hit) this turn
             //      startNewGame - get new hands for player and dealer
             //      resetScores - get new scores for player and dealer (initially set to 0)
+            bool sessionActive = true;
+            if (Session["session"] == null)
+            {
+                // session timed out
+                Session["session"] = true;
+                playerHit = true;
+                dealerHit = true;
+                userStands = false;
+                startNewGame = true;
+                resetScores = true;
+                sessionActive = false;
+            }
             var user = new Player();
             var computer = new Dealer();
             // if the startNewGame flag is not set, get the stored player and dealer
@@ -480,8 +549,9 @@ namespace PersonalPortfolio.Controllers
             //      userCards - array of user's cards' filename strings
             //      computerCards - array of computer's cards' filename strings
             //      playerScore - player's score (tally of wins, which is displayed on scoreboard at top of board)
-            //      dealerScore - computer's score ( " )      
-            return Json(new { gameOver = gameOver, userLabel = userLabel, computerLabel = computerLabel, playerStatus = playerStatus, userCards = userCard, computerCards = computerCard, playerScore = playerScore, dealerScore = dealerScore });
+            //      dealerScore - computer's score ( " )  
+            //      sessionActive - true if session was active when called; false if session timed out    
+            return Json(new { gameOver = gameOver, userLabel = userLabel, computerLabel = computerLabel, playerStatus = playerStatus, userCards = userCard, computerCards = computerCard, playerScore = playerScore, dealerScore = dealerScore, sessionActive=sessionActive });
         }
     }
 }

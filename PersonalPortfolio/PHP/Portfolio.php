@@ -79,7 +79,7 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
     <link href="/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/Content/custom.min.css" rel="stylesheet" type="text/css" />
 	<link href="/Content/jquery-ui.min.css" rel="stylesheet" />
-	<link href="/Content/PHPportfolio.css" rel="stylesheet" />
+	<link href="/Content/PHPportfolio.css?modified=28072016" rel="stylesheet" />
 <style>
 	
 </style>
@@ -415,7 +415,7 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
 		</footer>
 	</div>
 	
-	<div class="modal fade" id="feedbackTable">
+	<div class="modal" id="feedbackTable" data-backdrop="false">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -444,7 +444,7 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
 		</div>
 	</div>
 	
-	<div class="modal" id="addAppointmentTable">
+	<div class="modal" id="addAppointmentTable" data-backdrop="false">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -589,7 +589,7 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
 		</div>
 	</div>
 	
-	<div class="modal" id="editTaskModal">
+	<div class="modal" id="editTaskModal" data-backdrop="false">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -613,7 +613,7 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
 		</div>
 	</div>
 	
-	<div class="modal" id="appointmentDetailsModal">
+	<div class="modal" id="appointmentDetailsModal" data-backdrop="false">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -642,7 +642,7 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
 	$(document).ready(function () {
 		<?php
 		if (isset($_SESSION['user'])) {
-			echo "$('.loggedIn').show();$('.loggedOut').hide();checkTime = setInterval(function(){ getAlerts() }, 60000);getToDoList();getAppointmentList(-1);";
+			echo "$('.loggedIn').show();$('.loggedOut').hide();checkTime = setInterval(function(){ getAlerts() }, 300000);getToDoList();getAppointmentList(-1);";
 		}
 		else {
 			echo "$('.loggedIn').hide();$('.loggedOut').show();";

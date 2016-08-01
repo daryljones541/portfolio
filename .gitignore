@@ -258,3 +258,4 @@ web.release
 
 # WinHost database login info
 PHP/winhostDB.php
+/PersonalPortfolio/PHP/winhostDB.php

@@ -58,3 +58,7 @@
 #resetButton {
     margin: 0 20px;
 }
+#playersArea img, #computersArea img {
+    height: 122px;
+    width: 74px;
+}

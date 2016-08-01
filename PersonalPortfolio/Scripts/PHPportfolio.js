@@ -3,8 +3,9 @@ $(document).ready(function () {
 	$('input:not(:button), textarea, select').focus(function() {
 		$('.messageLabel').html('&nbsp;');
 	});
-	
-	// File Upload/Download functions
+
+    // FILE UPLOAD/DOWNLOAD FUNCTIONS
+
 	$('#new_file').on("change", function(e){
 		$('#fileToUpload').html(e.target.files[0].name); 
 	});
@@ -38,8 +39,9 @@ $(document).ready(function () {
 			e.preventDefault();
 		}
 	});
-	
-	// Appointment functions	
+
+    // APPOINTMENT FUNCTIONS
+
 	$('#appointmentDate').datepicker();
 	
 	$('#deleteAppointmentButton').click(function() {
@@ -210,7 +212,8 @@ $(document).ready(function () {
 		
 	});
 	
-	// Placeholders in Add Appointment modal
+    // PLACEHOLDERS IN ADD/EDIT APPOINTMENT FUNCTIONS
+
 	$('select.placeholder').on('change', function() {
 		if ($(this).val()=="none") {
 			$(this).addClass("placeholder");
@@ -220,7 +223,8 @@ $(document).ready(function () {
 		}
 	});
 	
-	// User Authentication functions	
+    // USER AUTHENTICATION FUNCTIONS
+
 	$('#registerButton').click(function() {
 		$('.messageLabel').html('&nbsp;');
 		var errorMessage="";
@@ -271,7 +275,7 @@ $(document).ready(function () {
 				$('#welcomeUser').html(username);
 				$('.loggedIn').show();
 				$('.loggedOut').hide();
-				checkTime = setInterval(function(){ getAlerts() }, 60000);
+				checkTime = setInterval(function(){ getAlerts() }, 300000);
 				getAlerts();
 			}
 			else if (data=='fail') {
@@ -313,7 +317,8 @@ $(document).ready(function () {
 		$('.login').show();
 	});
 		
-	// Highlight row functions for To Do list, Appointment list, and Reminder list 
+    // HIGHLIGHT ROW ON CLICK FUNCTIONS FOR TO DO LIST, APPOINTMENT LIST, AND REMINDER LIST
+
 	$("#alarmBody").on("click", "tr", function() {
 		$('.messageLabel').html('&nbsp;');
 		$("#alarmBody tr").removeClass('highlighted');
@@ -350,7 +355,8 @@ $(document).ready(function () {
 		}
 	});
 	
-	// To Do List functions
+    // TO DO LIST FUNCTIONS
+
 	$('#toDoBody').sortable({
 		update: function (event, ui) {
 			$('.messageLabel').html('&nbsp;');
@@ -428,7 +434,8 @@ $(document).ready(function () {
 		});
 	});
 	
-	// Getting Customer Feedback form functions
+    // CUSTOMER FEEDBACK FORM FUNCTIONS
+
 	$('#feedbackdate').datepicker();
 	
 	$('#custExperience').on('submit', function (e) {
@@ -478,7 +485,8 @@ $(document).ready(function () {
 	});
 });
 	
-// Get list of active (returns 'set') Appointment reminders, if any are returned, call function to display them
+// Get list of active (returns 'set') Appointment reminders, if any are returned, 
+// call function to display them
 function getAlerts() {
 	$.ajax({
 		type: 'post',
@@ -498,15 +506,42 @@ function alarm(data) {
 	var alarmText="";
 	$.each(data, function(index) {
 		if (data[index].time=="") {
-			alarmText+="<tr id='a"+data[index].id+"'><td>"+data[index].date+"</td><td>"+data[index].description+"</td></tr>";
+			alarmText+='<tr id="a'+data[index].id+'"><td>'+data[index].date+'</td><td>'+data[index].description+'</td></tr>';
 		}
 		else {
-			alarmText+="<tr id='a"+data[index].id+"'><td>"+data[index].date+" "+data[index].time+"</td><td>"+data[index].description+"</td></tr>";
+			alarmText+='<tr id="a'+data[index].id+'"><td>'+data[index].date+' '+data[index].time+'</td><td>'+data[index].description+'</td></tr>';
 		}
 	});
-	$('#alarmBody').html(alarmText);
-	$('.modal').modal('hide');		
+	// check if the reminder window is already visible
+	if ($('#alarmWindow').is(':visible')) {
+		// if so, see if the reminders it is displaying need updating
+		var currentText=$('#alarmBody').html().replace(' class="highlighted"', '');
+		if (currentText!=alarmText) $('#alarmBody').html(alarmText);
+		return;	
+	}
+	
+	else {
+		$('#alarmBody').html(alarmText);
+		// check if any other modal is open;
+		// if so, close it and remember it, and
+		// when the reminder window is closed,
+		// redisplay it
+		if ($('.modal').is(':visible')) {
+		var openModal=$('.modal:visible');
+		openModal.modal('hide');
+		$('#alarmWindow').on('hidden.bs.modal', function () {
+			openModal.modal('show');
+		})
+	}
+	else {
+		// if no other modal is open, 
+		// remove all 'on' event handlers
+		// from reminder modal 
+		$('#alarmWindow').off();
+	}
 	$('#alarmWindow').modal('show');
+	}
+	
 }
 
 // Get and display To Do list
