@@ -35,9 +35,10 @@
     $.validator.addMethod("regularDate", function (value, element) {
         return value.match(/^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/);
     }, "Please enter a date in the format mm/dd/yyyy");
-    $.validator.addMethod("regularDate", function (value, element) {
-        return value.match(/^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/);
-    }, "Please enter a date in the format mm/dd/yyyy");
+    $.validator.addMethod('phoneUS', function (a, b) {
+        return a = a.replace(/\s+/g, ''),
+        this.optional(b) || a.length > 9 && a.match(/^(\+?1-?)?(\([2-9]([02-9]\d|1[02-9])\)|[2-9]([02-9]\d|1[02-9]))-?[2-9]([02-9]\d|1[02-9])-?\d{4}$/)
+    }, 'Please specify a valid phone number');
     $('#exampleForm').validate({
         rules: {
             Date: {
@@ -268,8 +269,20 @@
     $('#weather-button').click(function () {
         if ($('#weather-form').valid()) getWeather();
     });
-    $('[title]').tooltip();   
+    $('[title]').tooltip();
+    checkTime = setInterval(function () { checkHeading() }, 500);
 });
+
+function checkHeading() {
+    if ($('#image').position().top == $('#headingText').position().top) {
+        $('#image img').height($('#headingText').innerHeight());
+        $('#image  img').css('width', 'auto');
+    }
+    else {
+        $('#image  img').css('width', '100%');
+        $('#image  img').css('height', 'auto');
+    }
+}
 
 function getWeather() {
 var uri = 'http://api.wunderground.com/api/';
@@ -343,7 +356,7 @@ function resendLink() {
         url: "/Users/ResendEmail",
         success: function (data) {
             if (data == "Sent") $('#login-error').html('Your verification link was re-emailed to you.<br /><br />');
-            else if (data=="Session") sessionTimeout('To have the verification link emailed to you, you will need to log back in.');
+            else if (data=="Session") sessionTimeout('To have the verification link emailed to you, you will need to re-enter your credentials.');
             else if (data == "User") {
                 $('#messageModalTitle').html('No User in Session');
                 $('#messageModalBody').html('<p>Log in and click the Resend button to have the verification link emailed to you.</p>');
@@ -358,10 +371,12 @@ function sessionTimeout(message) {
         type: "post",
         url: "/Users/IsAuthenticated",
         success: function (data) {
-            if (data == "False") message += "  If you were logged in, you'll need to log back in.";
-            loadCalendar();
-            $('.logged-in').hide();
-            $('.logged-out').show();
+            if (data == "False") {
+                message += "  If you were logged in, you'll need to log back in.";
+                loadCalendar();
+                $('.logged-in').hide();
+                $('.logged-out').show();
+            }
         }
     });  
     startGame();

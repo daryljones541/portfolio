@@ -103,7 +103,11 @@ namespace PersonalPortfolio.Controllers
         // AJAX called by Home/Index's Resend Link button (displays when unverified user tries to log in)
         public string ResendEmail()
         {
-            if (Session["session"] == null && Session["user"] == null) return "Session";
+            if (Session["session"] == null && Session["user"] == null)
+            {
+                Session["session"] = true;
+                return "Session";
+            }
             if (Session["user"] == null) return "User";
             else
             {
