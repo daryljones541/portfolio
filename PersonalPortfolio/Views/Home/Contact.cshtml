@@ -3,8 +3,6 @@
     ViewBag.Title = "Contact";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="@Url.Content("~/Content/contact.css")" rel="stylesheet" type="text/css" />
-
 <h2>Contact</h2>
 <div class="col-md-offset-1 col-md-10">
     <div class="well" id="container">
@@ -74,7 +72,8 @@
         </div>
     </div>
 </div>
-
+<link href="@Url.Content("~/Content/contact.min.css")" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script>
     $(document).ready(function () {

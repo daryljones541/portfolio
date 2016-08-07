@@ -1,0 +1,80 @@
+[
+  {
+    "outputFileName": "Content/about.min.css",
+    "inputFiles": [
+      "Content/about.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/bjStyle.min.css",
+    "inputFiles": [
+      "Content/bjStyle.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/home.min.css",
+    "inputFiles": [
+      "Content/home.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/PHPportfolio.min.css",
+    "inputFiles": [
+      "Content/PHPportfolio.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Site.min.css",
+    "inputFiles": [
+      "Content/Site.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/calendar.min.css",
+    "inputFiles": [
+      "Content/calendar.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/contact.min.css",
+    "inputFiles": [
+      "Content/contact.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/blackjack.min.js",
+    "inputFiles": [
+      "Scripts/blackjack.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/custom.min.js",
+    "inputFiles": [
+      "Scripts/custom.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/calendar.min.js",
+    "inputFiles": [
+      "Scripts/calendar.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/portfolio.min.js",
+    "inputFiles": [
+      "Scripts/portfolio.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/PHPportfolio.min.js",
+    "inputFiles": [
+      "Scripts/PHPportfolio.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/modernizr-2.6.2.min.js",
+    "inputFiles": [
+      "Scripts/modernizr-2.6.2.js"
+    ]
+  }
+]

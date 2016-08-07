@@ -155,14 +155,29 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\about.css" />
+    <Content Include="Content\about.min.css">
+      <DependentUpon>about.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bjStyle.min.css">
+      <DependentUpon>bjStyle.css</DependentUpon>
+    </Content>
+    <Content Include="Content\calendar.min.css">
+      <DependentUpon>calendar.css</DependentUpon>
+    </Content>
     <Content Include="Content\contact.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\calendar.css" />
+    <Content Include="Content\contact.min.css">
+      <DependentUpon>contact.css</DependentUpon>
+    </Content>
     <Content Include="Content\custom.min.css" />
     <Content Include="Content\home.css" />
+    <Content Include="Content\home.min.css">
+      <DependentUpon>home.css</DependentUpon>
+    </Content>
     <Content Include="Content\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
     <Content Include="Content\images\ui-bg_glass_100_e4f1fb_1x400.png" />
     <Content Include="Content\images\ui-bg_glass_50_3baae3_1x400.png" />
@@ -183,8 +198,14 @@
     <Content Include="Content\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui.theme.min.css" />
     <Content Include="Content\PHPportfolio.css" />
+    <Content Include="Content\PHPportfolio.min.css">
+      <DependentUpon>PHPportfolio.css</DependentUpon>
+    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Content\bjStyle.css" />
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -295,6 +316,7 @@
     <Content Include="PHP\Portfolio.php" />
     <Content Include="PHP\formFunctions.php" />
     <Content Include="PHP\winhostDB.php" />
+    <None Include="bundleconfig.json" />
     <None Include="Properties\PublishProfiles\darylpjones.com - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\darylpjones.com - Web Deploy.pubxml">
       <SubType>Designer</SubType>
@@ -306,26 +328,38 @@
     <Content Include="Images\Loading_2_transparent.gif" />
     <Content Include="Images\Pdf_icon.png" />
     <Content Include="PHP\upload\Head shot.PNG" />
-    <Content Include="Scripts\additional-methods.js" />
-    <Content Include="Scripts\additional-methods.min.js" />
     <Content Include="Scripts\blackjack.js" />
+    <Content Include="Scripts\blackjack.min.js">
+      <DependentUpon>blackjack.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\calendar.js" />
+    <Content Include="Scripts\calendar.min.js">
+      <DependentUpon>calendar.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\custom.js" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
-    <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-2.2.3.js" />
+    <Content Include="Scripts\custom.min.js">
+      <DependentUpon>custom.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
-    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\modernizr-2.6.2.min.js">
+      <DependentUpon>modernizr-2.6.2.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\PHPportfolio.js" />
+    <Content Include="Scripts\PHPportfolio.min.js">
+      <DependentUpon>PHPportfolio.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\portfolio.js" />
+    <Content Include="Scripts\portfolio.min.js">
+      <DependentUpon>portfolio.js</DependentUpon>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

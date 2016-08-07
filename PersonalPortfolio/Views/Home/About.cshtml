@@ -3,7 +3,6 @@
     ViewBag.Title = "About";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="@Url.Content("~/Content/about.css")" rel="stylesheet" type="text/css" />
 <h2>About</h2>
 <p>
     My name is Daryl Preston Jones.
@@ -94,6 +93,8 @@
     people’s ideas.  There are so many vantage points and viewpoints in the world, and I have noticed 
     that whenever I am around people, I am happier, and I would love to meet you.
 </p>
+<link href="@Url.Content("~/Content/about.min.css")" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>
 <script>
     $('.page-links').removeClass('active');
     $('#about-page').addClass('active');

@@ -4,11 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="@Url.Content("~/Content/home.css?modified=28072016")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Content/calendar.css?modified=28072016")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Content/jquery-ui.min.css")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Content/bjStyle.css?modified=28072016")" rel="stylesheet" type="text/css" />
-
 <div class="well">
     <div class="row">
         <div id="image" class="col-xs-8 col-sm-5 col-md-4">
@@ -383,11 +378,16 @@
     </div>
 </div>
 
+<link href="@Url.Content("~/Content/home.min.css?modified=28072016")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/calendar.min.css?modified=28072016")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/jquery-ui.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/bjStyle.min.css?modified=28072016")" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>
 <script src="~/Scripts/jquery-ui.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/calendar.js"></script>
-<script src="~/Scripts/portfolio.js"></script>
-<script src="~/Scripts/blackjack.js"></script>
+<script src="~/Scripts/calendar.min.js"></script>
+<script src="~/Scripts/portfolio.min.js"></script>
+<script src="~/Scripts/blackjack.min.js"></script>
 <script>
     $(document).ready(function () {
         var loggedIn=@User.Identity.IsAuthenticated.ToString().ToLower();
