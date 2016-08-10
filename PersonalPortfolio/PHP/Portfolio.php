@@ -76,10 +76,6 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
     <meta name="author" content="Daryl P. Jones" />
     <meta name="google-site-verification" content="MNMppwab6Xhwkj9r4Cf_oPAVuf_tHAiqYGDGXbFnvR4" />
     <title>PHP Portfolio - Daryl P. Jones</title>
-    <link href="/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="/Content/custom.min.css" rel="stylesheet" type="text/css" />
-	<link href="/Content/jquery-ui.min.css" rel="stylesheet" />
-	<link href="/Content/PHPportfolio.css?modified=28072016" rel="stylesheet" />
 <style>
 	
 </style>
@@ -633,11 +629,14 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
 		</div>
 	</div>
 	
-	<script src="/Scripts/modernizr-2.6.2.js"></script>
-	<script src="/Scripts/jquery-2.2.3.min.js"></script>
-	<script src="/Scripts/bootstrap.min.js"></script>
-	<script src="/Scripts/jquery-ui.min.js"></script>
-	<script src="/Scripts/PHPportfolio.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="/Content/jquery-ui.min.css" rel="stylesheet" />
+	<link href="/Content/PHPportfolio.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/modernizr/2.8.3/modernizr.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/Scripts/PHPportfolio.min.js"></script>
 	<script>
 	$(document).ready(function () {
 		<?php

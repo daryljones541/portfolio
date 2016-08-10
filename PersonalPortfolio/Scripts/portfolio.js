@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    $('.page-links').removeClass('active');
+    $('#portfolio-page').addClass('active');
     $('input, textarea, select').focus(function () {
         $('.error').html('');
         $('#event-box').hide();
@@ -11,8 +13,8 @@
         $('.error').html('');
         $('#event-box').hide();
     });
-    $('.page-links').removeClass('active');
-    $('#portfolio-page').addClass('active');
+    $.getScript("/Scripts/blackjack.min.js");
+    $.getScript("/Scripts/calendar.min.js");
     $('#datePicker').datepicker({
         onSelect: function (dateText, inst) {
             $('#datePicker').valid();

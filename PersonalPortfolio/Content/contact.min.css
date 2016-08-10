@@ -1,1 +1,1 @@
-.required:after{content:" *";font-weight:bold;color:#f00}.error{color:#a94442}textarea{width:100%}
+body{padding-top:50px;padding-bottom:20px}.body-content{padding-left:15px;padding-right:15px}input,select,textarea{max-width:280px}li#register-page{display:none}.required:after{content:" *";font-weight:bold;color:#f00}.error{color:#a94442}textarea{width:100%}

@@ -3,6 +3,7 @@
     ViewBag.Title = "Contact";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>body{padding-top:50px;padding-bottom:20px}.body-content{padding-left:15px;padding-right:15px}input,select,textarea{display:block;max-width:280px}li#register-page{display:none}.required:after{content:" *";font-weight:bold;color:#f00}.error{color:#a94442}textarea{width:100%}</style>
 <h2>Contact</h2>
 <div class="col-md-offset-1 col-md-10">
     <div class="well" id="container">
@@ -72,8 +73,7 @@
         </div>
     </div>
 </div>
-<link href="@Url.Content("~/Content/contact.min.css")" rel="stylesheet" type="text/css" />
-<script src="~/Scripts/jquery-2.2.3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script>
     $(document).ready(function () {

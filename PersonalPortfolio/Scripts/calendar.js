@@ -137,7 +137,7 @@ function calendar(events) {
         for (var x = 0; x < events.length; x++) {
             var eventDate = new Date(events[x].Date);
             if (eventDate.getDate()==i) {
-                if (x > 0 && eventID != "") var hr = '<hr />';
+                if (x > 0 && eventID != "") var hr = "<hr style='background-color:orange;border:none;height:1px;margin:3% 5%;padding:0;width:90%;' />";
                 else var hr = "";
                 if (events[x].AllDay == false) {
                     var ampm = ' AM';

@@ -97,7 +97,7 @@ function resetBoard() {
     $("#cCard1").attr("src", "/Images/Cards/black_back.jpg");
     // display 'game loading'
     $('#playerLabel').html("Please Wait...");
-    $('#computerLabel').html('Game is Loading <img src="/Images/Loading_2_transparent.gif" />');
+    $('#computerLabel').html('Game is Loading <img src="/Images/Loading_2_transparent.gif" alt="loading icon" />');
 }
 function updateBoard(data) {
     // display user's cards

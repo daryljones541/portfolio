@@ -1,4 +1,6 @@
-﻿#left-arrow, #right-arrow {
+﻿/* event calendar styles */
+
+#left-arrow, #right-arrow {
     border: 1px solid black;
     padding: 5px;
 }
@@ -99,12 +101,4 @@
 
 #events tr:nth-child(even) {
     background-color: #C6E2FF;
-}
-hr {
-    border: none;
-    background-color: orange;
-    height: 1px;
-    margin: 3% 5%;
-    padding: 0;
-    width: 90%;
 }

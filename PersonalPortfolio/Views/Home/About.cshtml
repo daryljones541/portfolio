@@ -3,6 +3,7 @@
     ViewBag.Title = "About";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>body{padding-top:50px;padding-bottom:20px}.body-content{padding-left:15px;padding-right:15px}input,select,textarea{max-width:280px}li#register-page{display:none}.list-group-item{background-color:#f0f8ff !important;border-color:#e6e6fa !important}#linkedIn{background:url("/Images/256px-Linkedin_icon.svg.png");background-size:90%;background-position:center center;background-repeat:no-repeat;float:left;height:70px;width:70px}#linkedIn:hover{background-size:100%}#links{float:left;margin-right:3vw}</style>
 <h2>About</h2>
 <p>
     My name is Daryl Preston Jones.
@@ -93,8 +94,7 @@
     people’s ideas.  There are so many vantage points and viewpoints in the world, and I have noticed 
     that whenever I am around people, I am happier, and I would love to meet you.
 </p>
-<link href="@Url.Content("~/Content/about.min.css")" rel="stylesheet" type="text/css" />
-<script src="~/Scripts/jquery-2.2.3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
     $('.page-links').removeClass('active');
     $('#about-page').addClass('active');

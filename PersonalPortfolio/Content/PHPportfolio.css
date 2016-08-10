@@ -1,5 +1,5 @@
 .body-content {
-    margin-top: 50px;
+    margin-top: 80px;
 }
 .required:after {
     content: " *";
@@ -55,7 +55,7 @@ select option {
 	width: 100px;
 }
 #fileUpload button {
-	poiner-events: all;
+	pointer-events: all;
 	position: absolute;
 	left: 0;
 	top: 0;
