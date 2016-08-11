@@ -1,4 +1,13 @@
-﻿$(document).ready(function () {
+﻿$(window).load(function () {
+    $.ajax({
+        type: "post",
+        url: "/Users/InitializeEF",
+        success: function (data) {
+        }
+    });
+});
+
+$(document).ready(function () {
     $('.page-links').removeClass('active');
     $('#portfolio-page').addClass('active');
     $('input, textarea, select').focus(function () {
@@ -13,18 +22,114 @@
         $('.error').html('');
         $('#event-box').hide();
     });
+    $.getScript("https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js", function () {
+        $('#datePicker').datepicker({
+            onSelect: function (dateText, inst) {
+                $('#datePicker').valid();
+            }
+        });
+        $('#eventDatePicker').datepicker({
+            onSelect: function (dateText, inst) {
+                $('#eventDatePicker').valid();
+            }
+        });
+    });
+    $.getScript("/Scripts/jquery.validate.min.js", function () {
+        $.validator.addMethod("regularDate", function (value, element) {
+            return value.match(/^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/);
+        }, "Please enter a date in the format mm/dd/yyyy");
+        $.validator.addMethod('phoneUS', function (a, b) {
+            return a = a.replace(/\s+/g, ''),
+            this.optional(b) || a.length > 9 && a.match(/^(\+?1-?)?(\([2-9]([02-9]\d|1[02-9])\)|[2-9]([02-9]\d|1[02-9]))-?[2-9]([02-9]\d|1[02-9])-?\d{4}$/)
+        }, 'Please specify a valid phone number');
+        $('#exampleForm').validate({
+            rules: {
+                Date: {
+                    required: true,
+                    regularDate: true
+                },
+                Email: {
+                    required: true,
+                    email: true
+                },
+                Phone: {
+                    phoneUS: true
+                },
+                Feedback: {
+                    required: true
+                }
+            },
+            messages: {
+                Date: {
+                    required: "Date is required."
+                },
+                Email: {
+                    required: "Email is required."
+                },
+                Feedback: {
+                    required: "Feedback is required."
+                }
+            },
+            errorContainer: "#error-summary",
+            showErrors: function (errorMap, errorList) {
+                $("#error-summary").html("Please fix the " + this.numberOfInvalids() + " errors above.");
+                this.defaultShowErrors();
+            }
+        });
+        $('#weather-form').validate({
+            rules: {
+                city: { required: true }
+            },
+            messages: {
+                city: { required: "You must enter a city." }
+            },
+            showErrors: function (errorMap, errorList) {
+                this.defaultShowErrors();
+            }
+        });
+        $('#login-form').validate({
+            rules: {
+                username: { required: true },
+                password: { required: true }
+            },
+            messages: {
+                username: { required: "Please enter your username." },
+                password: { required: "Please enter your password." }
+            },
+            showErrors: function (errorMap, errorList) {
+                this.defaultShowErrors();
+            }
+        });
+        $('#form-addevent').validate({
+            rules: {
+                eventDate: {
+                    required: true,
+                    regularDate: true
+                },
+                Location: {
+                    required: true
+                },
+                Title: {
+                    required: true
+                }
+            },
+            messages: {
+                eventDate: { required: "The event's date is required." },
+                Location: { required: "The event's location is required." },
+                Title: { required: "The event's details are required." }
+            },
+            showErrors: function (errorMap, errorList) {
+                this.defaultShowErrors();
+            }
+        });
+    });
+    $.getScript("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", function () {
+        $('[title]').tooltip();
+    });
+    $.getScript("https://cdn.jsdelivr.net/modernizr/2.8.3/modernizr.min.js");
     $.getScript("/Scripts/blackjack.min.js");
     $.getScript("/Scripts/calendar.min.js");
-    $('#datePicker').datepicker({
-        onSelect: function (dateText, inst) {
-            $('#datePicker').valid();
-        }
-    });
-    $('#eventDatePicker').datepicker({
-        onSelect: function (dateText, inst) {
-            $('#eventDatePicker').valid();
-        }
-    });
+    
     // called on first load
     // loads the weather conditions for Eugene, OR
     $.ajax({
@@ -32,93 +137,6 @@
         dataType: "jsonp",
         success: function (data) {
             displayResults(data);
-        }
-    });
-    $.validator.addMethod("regularDate", function (value, element) {
-        return value.match(/^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/);
-    }, "Please enter a date in the format mm/dd/yyyy");
-    $.validator.addMethod('phoneUS', function (a, b) {
-        return a = a.replace(/\s+/g, ''),
-        this.optional(b) || a.length > 9 && a.match(/^(\+?1-?)?(\([2-9]([02-9]\d|1[02-9])\)|[2-9]([02-9]\d|1[02-9]))-?[2-9]([02-9]\d|1[02-9])-?\d{4}$/)
-    }, 'Please specify a valid phone number');
-    $('#exampleForm').validate({
-        rules: {
-            Date: {
-                required: true,
-                regularDate: true
-            },
-            Email: {
-                required: true,
-                email: true
-            },
-            Phone: {
-                phoneUS: true
-            },
-            Feedback: {
-                required: true
-            }
-        },
-        messages: {
-            Date: {
-                required: "Date is required."
-            },
-            Email: {
-                required: "Email is required."
-            },
-            Feedback: {
-                required: "Feedback is required."
-            }
-        },
-        errorContainer: "#error-summary",
-        showErrors: function (errorMap, errorList) {
-            $("#error-summary").html("Please fix the " + this.numberOfInvalids() + " errors above.");
-            this.defaultShowErrors();
-        }
-    });
-    $('#weather-form').validate({
-        rules: {
-            city: { required: true }
-        },
-        messages: {
-            city: { required: "You must enter a city." }
-        },
-        showErrors: function (errorMap, errorList) {
-            this.defaultShowErrors();
-        }
-    });
-    $('#login-form').validate({
-        rules: {
-            username: { required: true },
-            password: { required: true }
-        },
-        messages: {
-            username: { required: "Please enter your username." },
-            password: { required: "Please enter your password." }
-        },
-        showErrors: function (errorMap, errorList) {
-            this.defaultShowErrors();
-        }
-    });
-    $('#form-addevent').validate({
-        rules: {
-            eventDate: {
-                required: true,
-                regularDate: true
-            },
-            Location: {
-                required: true
-            },
-            Title: {
-                required: true
-            }
-        },
-        messages: {
-            eventDate: { required: "The event's date is required." },
-            Location: { required: "The event's location is required." },
-            Title: { required: "The event's details are required." }
-        },
-        showErrors: function (errorMap, errorList) {
-            this.defaultShowErrors();
         }
     });
     $('#login-button').click(function () {
@@ -163,8 +181,8 @@
                     success: function (data) {
                         $('#modal-addevent').modal('hide');
                         // server returns true if session has not expired
-                        if (data == "True") {      
-                            var addDate = new Date(parseInt(data.replace('/Date(', '')));
+                        if (data == "True") {
+                            var addDate = new Date(eventDate);
                             month = addDate.getMonth();
                             year = addDate.getFullYear();
                             fetchMonth();
@@ -197,7 +215,7 @@
     });
 
     $('#logout-button').click(function () {
-        $('#logout-message').html('Logging you out <img src="/Images/Loading_2_transparent.gif" />');
+        $('#logout-message').html('Logging you out <img src="/Images/Loading_2_transparent.gif" alt="loading icon" />');
         $.ajax({
             type: "post",
             url: "/Users/Logout",
@@ -271,7 +289,6 @@
     $('#weather-button').click(function () {
         if ($('#weather-form').valid()) getWeather();
     });
-    $('[title]').tooltip();
     checkTime = setInterval(function () { checkHeading() }, 500);
 });
 

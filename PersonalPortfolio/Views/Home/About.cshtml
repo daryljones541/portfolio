@@ -3,7 +3,7 @@
     ViewBag.Title = "About";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>body{padding-top:50px;padding-bottom:20px}.body-content{padding-left:15px;padding-right:15px}input,select,textarea{max-width:280px}li#register-page{display:none}.list-group-item{background-color:#f0f8ff !important;border-color:#e6e6fa !important}#linkedIn{background:url("/Images/256px-Linkedin_icon.svg.png");background-size:90%;background-position:center center;background-repeat:no-repeat;float:left;height:70px;width:70px}#linkedIn:hover{background-size:100%}#links{float:left;margin-right:3vw}</style>
+<style>.list-group-item{background-color:#f0f8ff !important;border-color:#e6e6fa !important}#linkedIn{background:url("/Images/256px-Linkedin_icon.svg.png");background-size:90%;background-position:center center;background-repeat:no-repeat;float:left;height:70px;width:70px}#linkedIn:hover{background-size:100%}#links{float:left;margin-right:3vw}</style>
 <h2>About</h2>
 <p>
     My name is Daryl Preston Jones.
@@ -94,22 +94,45 @@
     people’s ideas.  There are so many vantage points and viewpoints in the world, and I have noticed 
     that whenever I am around people, I am happier, and I would love to meet you.
 </p>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
-    $('.page-links').removeClass('active');
-    $('#about-page').addClass('active');
-    $(document).ready(function () {
+    window.onload = function () {
+        var pageLinks = document.getElementsByClassName('page-links');
+        for (var i = 0; i < pageLinks.length; i++) {
+            pageLinks[i].classList.remove('active');
+        }
+        document.getElementById('about-page').classList.add('active');
         checkScreen();
-    });
-    $(window).resize(function () {
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js";
+
+        // Then bind the event to the callback function.
+        // There are several events for cross browser compatibility.
+        script.onreadystatechange = jQueryReady;
+        script.onload = jQueryReady;
+        script.async = true;
+        // Fire the loading
+        head.appendChild(script);
+    }
+  
+    window.onresize = function () {
         checkScreen();
-    });
+    }
     function checkScreen() {
-        if ($('#list-item1').offset().top == $('#list-item2').offset().top) {
-            $('#class-list').css('padding-top', '0.5em');
+        var listItem1 = document.getElementById('list-item1').getBoundingClientRect();
+        var listItem2 = document.getElementById('list-item2').getBoundingClientRect();
+        if (listItem1.top == listItem2.top) {
+            document.getElementById('class-list').style.paddingTop = "0.5em";
         }
         else {
-            $('#class-list').css('padding-top', '0');
+            document.getElementById('class-list').style.paddingTop = "0";
         }
+    }
+    function jQueryReady() {
+        // load bootstrap Readable font
+        $('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet' }).attr('href', 'https://fonts.googleapis.com/css?family=Raleway:400,700');
+        $.getScript("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js");
+        $.getScript("https://cdn.jsdelivr.net/modernizr/2.8.3/modernizr.min.js");
     }
 </script>

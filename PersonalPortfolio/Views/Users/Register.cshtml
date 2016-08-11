@@ -4,27 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src='https://www.google.com/recaptcha/api.js'></script>
-<style>
-    li#register-page {
-    display: inline;
-    }
-    /* site wide styles */
-    body {
-        padding-top: 50px;
-        padding-bottom: 20px;
-    }
-    /* Set padding to keep content from hitting the edges */
-    .body-content {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    /* Set width on the form input elements since they're 100% wide by default */
-    input,
-    select,
-    textarea {
-        max-width: 280px;
-    }
-</style>
+<style>li#register-page{display: inline;}</style>
 <h2>Register</h2>
 
 @using (Html.BeginForm("Register", "Users", FormMethod.Post, new { enctype = "multipart/form-data", @id="register-form" }))
@@ -82,11 +62,30 @@
 <p>
     @Html.ActionLink("Return to Portfolio", "Index", "Home")
 </p>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
-    $('.page-links').removeClass('active');
-    $('#register-page').addClass('active');
-    $('#register-button').click(function () {
-        $('#register-form').submit();
-    });
+    window.onload = function () {
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js";
+
+        // Then bind the event to the callback function.
+        // There are several events for cross browser compatibility.
+        script.onreadystatechange = jQueryReady;
+        script.onload = jQueryReady;
+        script.async = true;
+        // Fire the loading
+        head.appendChild(script);
+    }
+    function jQueryReady() {
+        $('.page-links').removeClass('active');
+        $('#register-page').addClass('active');
+        $('#register-button').click(function () {
+            $('#register-form').submit();
+        });
+        // load bootstrap Readable font
+        $('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet' }).attr('href', 'https://fonts.googleapis.com/css?family=Raleway:400,700');
+        $.getScript("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js");
+        $.getScript("https://cdn.jsdelivr.net/modernizr/2.8.3/modernizr.min.js");
+    }   
 </script>

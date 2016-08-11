@@ -1,5 +1,36 @@
 ﻿$(document).ready(function () {
     $.ajaxSetup({ cache: false });
+    $("#pCard1").on('load', function () {
+        if ($(this).attr('src') != "/Images/Cards/black_back.jpg") {
+            $(this).css("visibility", "visible");
+            $("#cCard1").css("visibility", "visible");
+        }
+        else {
+            $(this).css("visibility", "invisible");
+            $("#cCard1").css("visibility", "invisible");
+        }
+    });
+    for (var x = 2; x < 12; x++) {
+        $("#pCard" + (x)).on('load', function () {
+            if ($(this).attr('src') != "/Images/Cards/black_back.jpg") {
+                $(this).show();
+            }
+            else {
+                $(this).hide();
+            }
+        });
+        $("#cCard" + (x)).on('load', function () {
+            if ($(this).attr('src') != "/Images/Cards/black_back.jpg") {
+                $(this).show();
+            }
+            else {
+                $(this).hide();
+            }
+        });
+    }
+    $('img.product_image').on('load', function () {
+        alert($('img.product_image').attr('src'));
+    });
     startGame();
     // Every AJAX call below passes five flags to the GameTurn C# function
     // playerHit: true to deal player a card if player can hit
@@ -64,9 +95,6 @@ function startGame() {
         data: { playerHit: false, dealerHit: false, userStands: false, startNewGame: false, resetScores: false },
         dataType: "json",
         success: function (data) {
-            // make user's and computer's card 1 visible    
-            $('#pCard1').css("visibility", "visible");
-            $('#cCard1').css("visibility", "visible");
             updateBoard(data);
         }
     });
@@ -85,33 +113,28 @@ function gameTurn() {
     });
 }
 function resetBoard() {
-    // remove cards 2-12 from the board for player and computer and reset their images to back of card
-    for (var x = 2; x < 12; x++) {
-        $("#pCard" + (x)).hide();
+    // reset game cards
+    for (var x = 1; x < 12; x++) {
         $("#pCard" + (x)).attr("src", "/Images/Cards/black_back.jpg");
-        $("#cCard" + (x)).hide();
         $("#cCard" + (x)).attr("src", "/Images/Cards/black_back.jpg");
     }
-    // make cards 1 for player and computer invisible and reset their images to back of card
-    $("#pCard1").attr("src", "/Images/Cards/black_back.jpg");
-    $("#cCard1").attr("src", "/Images/Cards/black_back.jpg");
     // display 'game loading'
-    $('#playerLabel').html("Please Wait...");
-    $('#computerLabel').html('Game is Loading <img src="/Images/Loading_2_transparent.gif" alt="loading icon" />');
+    $('#playerLabel').html("Loading");
+    $('#computerLabel').html('Game <img src="/Images/Loading_2_transparent.gif" alt="loading icon" />');
 }
 function updateBoard(data) {
     // display user's cards
     for (var x = 0; x < data.userCards.length; x++) {
         $("#pCard" + (x + 1)).attr("src", data.userCards[x]);
-        $("#pCard" + (x + 1)).show();
     }
     for (var x = data.userCards.length; x < 11; x++) {
         $("#pCard" + (x + 1)).hide();
     }
     // display computer's cards
     for (var x = 0; x < data.computerCards.length; x++) {
-        if (x > 0) $("#cCard" + (x + 1)).attr("src", data.computerCards[x]);
-        $("#cCard" + (x + 1)).show();
+        if (x > 0) {
+            $("#cCard" + (x + 1)).attr("src", data.computerCards[x]);
+        }
     }
     for (var x = data.computerCards.length; x < 11; x++) {
         $("#cCard" + (x + 1)).hide();

@@ -4,10 +4,7 @@ $().ready(function () {
 });
 
 function loadCalendar() {
-    // global variables that hold the position of the scrollbar and the month/year
-    // scrollbar is to keeep page where it is when going forward/back a month
     // monthYear holds what month and year should be displayed
-    scrollbar = 0;
     monthYear = new Date();
     month = monthYear.getMonth();
     year = monthYear.getFullYear();
@@ -84,8 +81,7 @@ $(window).resize(function () {
 });
 
 // get the list of events for the passed month and send it to calendar function to display
-function fetchMonth() {
-    scrollbar = $(window).scrollTop();   
+function fetchMonth() {   
     $.ajax({
         type: "post",
         url: "/Home/GetList",
@@ -171,7 +167,6 @@ function calendar(events) {
     $('#calendar').html(calendar);
     var width = $('#events td').width();
     $('#events td').height(width);
-    $(window).scrollTop(scrollbar);
 
     $('.display-event').click(
        function () {
@@ -205,7 +200,6 @@ function calendar(events) {
             }
             monthYear = new Date(year, month, day);
             fetchMonth();
-            scrollbar = $(window).scrollTop();
     });
 
     $('#right-arrow').click(

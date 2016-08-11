@@ -3,7 +3,7 @@
     ViewBag.Title = "Contact";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>body{padding-top:50px;padding-bottom:20px}.body-content{padding-left:15px;padding-right:15px}input,select,textarea{display:block;max-width:280px}li#register-page{display:none}.required:after{content:" *";font-weight:bold;color:#f00}.error{color:#a94442}textarea{width:100%}</style>
+<style>.required:after{content:" *";font-weight:bold;color:#f00}.error{color:#a94442}textarea{display:block;width:100%}</style>
 <h2>Contact</h2>
 <div class="col-md-offset-1 col-md-10">
     <div class="well" id="container">
@@ -73,53 +73,73 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
 <script>
-    $(document).ready(function () {
+    window.onload = function () {
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js";
+
+        // Then bind the event to the callback function.
+        // There are several events for cross browser compatibility.
+        script.onreadystatechange = jQueryReady;
+        script.onload = jQueryReady;
+        script.async=true;
+        // Fire the loading
+        head.appendChild(script);
+    }
+    function jQueryReady() {
         $('.page-links').removeClass('active');
         $('#contact-page').addClass('active');
-        $('#contactForm').validate({
-            rules: {
-                Email: {
-                    required: true
-                },
-                Remail: {
-                    equalTo: '#email'
-                },
-                Message: {
-                    required: true
-                }
-            },
-            messages: {
-                Email: { required: "Your email is required." },
-                Remail: { equalTo: "The emails do not match." },
-                Message: { required: "Your message is required." }
-            },
-            showErrors: function (errorMap, errorList) {
-                this.defaultShowErrors();
-            }
-        });
-        $('#submit-button').click(function () {
-            if ($('#contactForm').valid()) {
-                var email = $('#email').val();
-                var category = $("#category option:selected").text();
-                var subject = $('#subject').val();
-                var message = $('#message').val();
-                $.ajax({
-                    type: "POST",
-                    url: "/Home/SendMessage",
-                    data: { category: category, subject: subject, email: email, message: message },
-                    success: function (data) {
-                        if (data) {
-                            $('#contactForm')[0].reset();
-                            $('#form-messagesent').modal('show');
-                        }
+        // load bootstrap Readable font
+        $('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet' }).attr('href', 'https://fonts.googleapis.com/css?family=Raleway:400,700');
+        $.getScript("/Scripts/jquery.validate.min.js", function () {
+            $('#contactForm').validate({
+                rules: {
+                    Email: {
+                        required: true
                     },
-                    error: function (xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
-                });
-            }
-        });
-    });
-    
+                    Remail: {
+                        equalTo: '#email'
+                    },
+                    Message: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Email: { required: "Your email is required." },
+                    Remail: { equalTo: "The emails do not match." },
+                    Message: { required: "Your message is required." }
+                },
+                showErrors: function (errorMap, errorList) {
+                    this.defaultShowErrors();
+                }
+            });
+            $('#submit-button').click(function () {
+                if ($('#contactForm').valid()) {
+                    $('#submit-button').prop("disabled", true);
+                    $('#error-summary').html('Sending <img src="/Images/Loading_2_transparent.gif" alt="loading icon" />');
+                    var email = $('#email').val();
+                    var category = $("#category option:selected").text();
+                    var subject = $('#subject').val();
+                    var message = $('#message').val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/SendMessage",
+                        data: { category: category, subject: subject, email: email, message: message },
+                        success: function (data) {
+                            if (data) {
+                                $('#error-summary').html('');
+                                $('#contactForm')[0].reset();
+                                $('#form-messagesent').modal('show');
+                                $('#submit-button').prop("disabled", false);
+                            }
+                        }
+                    });
+                }
+            });
+        }); 
+        $.getScript("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js");
+        $.getScript("https://cdn.jsdelivr.net/modernizr/2.8.3/modernizr.min.js");
+    }  
 </script>
