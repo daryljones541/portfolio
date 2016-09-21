@@ -222,8 +222,11 @@ $(document).ready(function () {
             success: function (data) {
                 if (data == "True") {
                     $('.error').html('');
-                    $('.logged-in').hide();
-                    $('.logged-out').show();
+                    //$('.logged-in').hide();
+                    //$('.logged-out').show();
+                    $('.logged-in').slideUp("slow", function () {
+                        $('.logged-out').slideDown("slow");
+                    });
                     fetchMonth();
                 }
                 else $('#logout-message').html('There was a problem logging you out.');
@@ -353,8 +356,11 @@ if ($('#login-form').valid()) {
         data: { username: username, password: password },
         success: function (data) {
             if (data == "true") {
-                $('.logged-in').show();
-                $('.logged-out').hide();
+                $('.logged-out').slideUp("slow", function () {
+                    $('.logged-in').slideDown("slow");
+                });
+                //$('.logged-in').show();
+                //$('.logged-out').hide();
                 $('#welcome-username').html(username);
                 fetchMonth();
             }

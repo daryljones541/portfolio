@@ -94,10 +94,11 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 					<li class="dropdown page-links active">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Portfolio <b class="caret"></b></a>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Portfolios <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="/">ASP.NET</a></li>
-                            <li><a href="/PHP/Portfolio.php">PHP</a></li>
+                            <li><a href="/drupal">Drupal</a></li>
+							<li><a href="/PHP/Portfolio.php">PHP</a></li>
                         </ul>
                     </li>
 					<li class="page-links"><a href="/Home/About">About</a></li>
@@ -109,7 +110,7 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
 	<div class="container body-content">   
 		<div id="greeting" class="panel panel-default col-md-12" style="font-size:x-large;">
 		<div class="panel-body">
-			<p>Welcome to my <strong>PHP portfolio</strong>.  I also have an <a href="/">ASP.NET portfolio</a>.  Below you'll find examples of</p>
+			<p>Welcome to my <strong>PHP portfolio</strong>.  I also have <a href="/">ASP.NET</a> and <a href="/drupal">Drupal</a> portfolios.  Below you'll find examples of</p>
 			
 			<ul>
 				<li class="col-md-6">Server Side Validation</li> 
@@ -132,9 +133,9 @@ if (isset($_POST['upload']) && !isset($_SESSION['uploadMessage'])) {
 			</div>
 			<div class="panel-body">
 				<div class="loggedOut" style="display:none;">
-					<p><span class="login">Don't have an account yet?  Click 
+					<p><span id="login-text">Don't have an account yet?  Click 
 					<span class="fake-link" id="new-user-link">here</span> to register.</span>
-					<span class="register" style="display:none;">Already have an account?  Click 
+					<span id="register-text" style="display:none;">Already have an account?  Click 
 					<span class="fake-link" id="exist-user-link">here</span> to login.</span>
 					Users are stored in a MySQL database.  Passwords are encrypted using md5.  
 					Credentials created on the ASP.NET Portfolio will not work here and vice versa.</p>

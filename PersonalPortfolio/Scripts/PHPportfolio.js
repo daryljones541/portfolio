@@ -247,8 +247,12 @@ $(document).ready(function () {
 				else if (data=='created') {
 					$('#registerMessage').html('User account created successfully.');
 					$('#welcomeUser').html(username);
-					$('.loggedIn').show();
-					$('.loggedOut').hide();
+					$('.loggedOut').slideUp("slow", function () {
+					    $('.loggedIn').slideDown("slow");
+					});
+
+				    //$('.loggedIn').show();
+					//$('.loggedOut').hide();
 				}
 				else $('#loginMessage').html("There was a problem creating your account.");
 			}
@@ -273,8 +277,11 @@ $(document).ready(function () {
 				getToDoList();
 				getAppointmentList(-1);
 				$('#welcomeUser').html(username);
-				$('.loggedIn').show();
-				$('.loggedOut').hide();
+				$('.loggedOut').slideUp("slow", function () {
+				    $('.loggedIn').slideDown("slow");
+				});
+				//$('.loggedIn').show();
+				//$('.loggedOut').hide();
 				checkTime = setInterval(function(){ getAlerts() }, 300000);
 				getAlerts();
 			}
@@ -296,25 +303,37 @@ $(document).ready(function () {
 		url: 'formFunctions.php',
 		data: { logout:'yes' },
 		success: function () {
-			$('.loggedIn').hide();
-			$('.loggedOut').show();
-			$('.register').hide();
-			$('.login').show();
+		    $('.loggedIn').slideUp("slow", function () {
+		        $('.loggedOut').slideDown("slow");
+		    });
+			//$('.loggedIn').hide();
+		    //$('.loggedOut').show();
+		    $('.register').slideUp("slow", function () {
+		        $('.login').slideDown("slow");
+		    });
+			$('#register-text').hide();
+			$('#login-text').show();
 			clearInterval(checkTime);
 		}
 	  });
 	});
 	
 	$('#new-user-link').click(function() {
-		$('.messageLabel').html('&nbsp;');
-		$('.register').show();
-		$('.login').hide();
+	    $('.messageLabel').html('&nbsp;');
+	    $('.login').slideUp("slow", function () {
+	        $('.register').slideDown("slow");
+	    });
+		$('#register-text').show();
+		$('#login-text').hide();
 	});
 	
 	$('#exist-user-link').click(function() {
-		$('.messageLabel').html('&nbsp;');
-		$('.register').hide();
-		$('.login').show();
+	    $('.messageLabel').html('&nbsp;');
+	    $('.register').slideUp("slow", function () {
+	        $('.login').slideDown("slow");
+	    });
+		$('#register-text').hide();
+		$('#login-text').show();
 	});
 		
     // HIGHLIGHT ROW ON CLICK FUNCTIONS FOR TO DO LIST, APPOINTMENT LIST, AND REMINDER LIST
